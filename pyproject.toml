@@ -1,0 +1,46 @@
+[project]
+name = "FargoVis"
+version = "0.1"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib",
+    "numpy",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8",
+    "flake8-docstrings",
+    "isort",
+    "mypy",
+    "pip-tools",
+    "pre-commit",
+    "pytest",
+    "pytest-cov",
+    "pytest-mypy",
+    "pytest-mock",
+    "sphinx",
+    "sphinx-rtd-theme"
+]
+
+[tool.mypy]
+disallow_any_explicit = false
+disallow_any_generics = true
+warn_unreachable = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+exclude = [
+    ".venv/",
+    "docs/"
+]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+addopts = "-v --mypy -p no:warnings --cov=fargovis --cov-report=html --doctest-modules --ignore=docs/"
