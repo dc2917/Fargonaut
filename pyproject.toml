@@ -1,5 +1,5 @@
 [project]
-name = "FargoVis"
+name = "Fargonaut"
 version = "0.1"
 requires-python = ">=3.12"
 dependencies = [
@@ -43,4 +43,4 @@ disallow_untyped_defs = false
 profile = "black"
 
 [tool.pytest.ini_options]
-addopts = "-v --mypy -p no:warnings --cov=fargovis --cov-report=html --doctest-modules --ignore=docs/"
+addopts = "-v --mypy -p no:warnings --cov=fargonaut --cov-report=html --doctest-modules --ignore=docs/"

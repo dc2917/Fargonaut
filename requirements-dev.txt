@@ -11,7 +11,7 @@ attrs==24.2.0
 babel==2.16.0
     # via sphinx
 black==24.8.0
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 build==1.2.2
     # via pip-tools
 certifi==2024.8.30
@@ -42,10 +42,10 @@ filelock==3.16.0
     #   virtualenv
 flake8==7.1.1
     # via
-    #   FargoVis (pyproject.toml)
+    #   Fargonaut (pyproject.toml)
     #   flake8-docstrings
 flake8-docstrings==1.7.0
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 fonttools==4.53.1
     # via matplotlib
 identify==2.6.1
@@ -57,7 +57,7 @@ imagesize==1.4.1
 iniconfig==2.0.0
     # via pytest
 isort==5.13.2
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 jinja2==3.1.4
     # via sphinx
 kiwisolver==1.4.7
@@ -65,12 +65,12 @@ kiwisolver==1.4.7
 markupsafe==2.1.5
     # via jinja2
 matplotlib==3.9.2
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 mccabe==0.7.0
     # via flake8
 mypy==1.11.2
     # via
-    #   FargoVis (pyproject.toml)
+    #   Fargonaut (pyproject.toml)
     #   pytest-mypy
 mypy-extensions==1.0.0
     # via
@@ -80,7 +80,7 @@ nodeenv==1.9.1
     # via pre-commit
 numpy==2.1.1
     # via
-    #   FargoVis (pyproject.toml)
+    #   Fargonaut (pyproject.toml)
     #   contourpy
     #   matplotlib
 packaging==24.1
@@ -95,7 +95,7 @@ pathspec==0.12.1
 pillow==10.4.0
     # via matplotlib
 pip-tools==7.4.1
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 platformdirs==4.3.3
     # via
     #   black
@@ -103,7 +103,7 @@ platformdirs==4.3.3
 pluggy==1.5.0
     # via pytest
 pre-commit==3.8.0
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 pycodestyle==2.12.1
     # via flake8
 pydocstyle==6.3.0
@@ -120,16 +120,16 @@ pyproject-hooks==1.1.0
     #   pip-tools
 pytest==8.3.3
     # via
-    #   FargoVis (pyproject.toml)
+    #   Fargonaut (pyproject.toml)
     #   pytest-cov
     #   pytest-mock
     #   pytest-mypy
 pytest-cov==5.0.0
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 pytest-mock==3.14.0
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 pytest-mypy==0.10.3
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via matplotlib
 pyyaml==6.0.2
@@ -144,11 +144,11 @@ snowballstemmer==2.2.0
     #   sphinx
 sphinx==7.4.7
     # via
-    #   FargoVis (pyproject.toml)
+    #   Fargonaut (pyproject.toml)
     #   sphinx-rtd-theme
     #   sphinxcontrib-jquery
 sphinx-rtd-theme==2.0.0
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 sphinxcontrib-applehelp==2.0.0
     # via sphinx
 sphinxcontrib-devhelp==2.0.0

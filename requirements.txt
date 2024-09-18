@@ -13,10 +13,10 @@ fonttools==4.53.1
 kiwisolver==1.4.7
     # via matplotlib
 matplotlib==3.9.2
-    # via FargoVis (pyproject.toml)
+    # via Fargonaut (pyproject.toml)
 numpy==2.1.1
     # via
-    #   FargoVis (pyproject.toml)
+    #   Fargonaut (pyproject.toml)
     #   contourpy
     #   matplotlib
 packaging==24.1
