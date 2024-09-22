@@ -36,8 +36,7 @@ class Output:
         self._directory = Path(directory)
         self._read_opts()
         self._read_vars()
-
-    #        self._read_domains()
+        self._read_domains()
 
     def _read_domains(self) -> None:
         """Read and store the contents of the output's dimensions files."""
