@@ -36,7 +36,8 @@ class Output:
         self._directory = Path(directory)
         self._read_opts()
         self._read_vars()
-        self._read_domains()
+
+    #        self._read_domains()
 
     def _read_domains(self) -> None:
         """Read and store the contents of the output's dimensions files."""
@@ -138,35 +139,59 @@ class Output:
 
         Returns:
             bool: Whether ghost cells are included in the field data files
+
+        Raises:
+            Exception: If _read_opts has not been executed
         """
-        return "WRITEGHOSTS" in self._opts
+        try:
+            return "WRITEGHOSTS" in self._opts
+        except AttributeError:
+            raise Exception("Simulation options have not been read.")
 
     @property
     def xdomain(self) -> NDArray[float64]:
         """Domain of the output in the x dimension.
 
         Returns:
-            NDArray: A numpy array containing the x coordinates
+            NDArray: A numpy array containing the x-coordinates
+
+        Raises:
+            Exception: If _read_domains has not been executed
         """
-        return self._xdomain
+        try:
+            return self._xdomain
+        except AttributeError:
+            raise Exception("Output domains have not been read.")
 
     @property
     def ydomain(self) -> NDArray[float64]:
         """Domain of the output in the y dimension.
 
         Returns:
-            NDArray: A numpy array containing the y coordinates
+            NDArray: A numpy array containing the y-coordinates
+
+        Raises:
+            Exception: If _read_domains has not been executed
         """
-        return self._ydomain
+        try:
+            return self._ydomain
+        except AttributeError:
+            raise Exception("Output domains have not been read.")
 
     @property
     def zdomain(self) -> NDArray[float64]:
         """Domain of the output in the z dimension.
 
         Returns:
-            NDArray: A numpy array containing the z coordinates
+            NDArray: A numpy array containing the z-coordinates
+
+        Raises:
+            Exception: If _read_domains has not been executed
         """
-        return self._zdomain
+        try:
+            return self._zdomain
+        except AttributeError:
+            raise Exception("Output domains have not been read.")
 
     @property
     def nx(self) -> int:
@@ -174,8 +199,14 @@ class Output:
 
         Returns:
             int: The number of cells used in the x dimension.
+
+        Raises:
+            Exception: If _read_vars has not been executed
         """
-        return int(self._vars["NX"])
+        try:
+            return int(self._vars["NX"])
+        except AttributeError:
+            raise Exception("Output variables have not been read.")
 
     @property
     def ny(self) -> int:
@@ -183,8 +214,14 @@ class Output:
 
         Returns:
             int: The number of cells used in the y dimension.
+
+        Raises:
+            Exception: If _read_vars has not been executed
         """
-        return int(self._vars["NY"])
+        try:
+            return int(self._vars["NY"])
+        except AttributeError:
+            raise Exception("Output variables have not been read.")
 
     @property
     def nz(self) -> int:
@@ -192,8 +229,14 @@ class Output:
 
         Returns:
             int: The number of cells used in the z dimension.
+
+        Raises:
+            Exception: If _read_vars has not been executed
         """
-        return int(self._vars["NZ"])
+        try:
+            return int(self._vars["NZ"])
+        except AttributeError:
+            raise Exception("Output variables have not been read.")
 
     @property
     def nghx(self) -> int:
@@ -201,8 +244,14 @@ class Output:
 
         Returns:
             int: The number of cells used in the z dimension.
+
+        Raises:
+            Exception: If _read_domains has not been executed
         """
-        return int((len(self._xdomain) - self.nx - 1) / 2)
+        try:
+            return int((len(self._xdomain) - self.nx - 1) / 2)
+        except AttributeError:
+            raise Exception("Output domains have not been read.")
 
     @property
     def nghy(self) -> int:
@@ -210,8 +259,14 @@ class Output:
 
         Returns:
             int: The number of cells used in the z dimension.
+
+        Raises:
+            Exception: If _read_domains has not been executed
         """
-        return int((len(self._ydomain) - self.ny - 1) / 2)
+        try:
+            return int((len(self._ydomain) - self.ny - 1) / 2)
+        except AttributeError:
+            raise Exception("Output domains have not been read.")
 
     @property
     def nghz(self) -> int:
@@ -219,5 +274,11 @@ class Output:
 
         Returns:
             int: The number of cells used in the z dimension.
+
+        Raises:
+            Exception: If _read_domains has not been executed
         """
-        return int((len(self._zdomain) - self.nz - 1) / 2)
+        try:
+            return int((len(self._zdomain) - self.nz - 1) / 2)
+        except AttributeError:
+            raise Exception("Output domains have not been read.")
