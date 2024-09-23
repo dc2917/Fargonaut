@@ -1,4 +1,4 @@
-# Fargonaut
+# Explore your FARGO3D simulation outputs with `Fargonaut`!
 
 Fargonaut is a package for post-processing and visualising outputs of [FARGO3D](https://github.com/FARGO3D/fargo3d), written in Python.
 
