@@ -2,6 +2,15 @@
 
 Fargonaut is a package for post-processing and visualising outputs of [FARGO3D](https://github.com/FARGO3D/fargo3d), written in Python.
 
+```py
+>>> from fargonaut.output import Output
+
+>>> output = Output("/path/to/fargo3d/outputs")
+>>> gasdens50 = output.get_field("gasdens", 50)
+>>> gasdens50.plot()
+```
+
+![Gas surface density output 50](docs/images/fargo_gasdens50.png)
 
 ## Contributing to Fargonaut
 
