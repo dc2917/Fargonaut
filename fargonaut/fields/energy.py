@@ -38,7 +38,7 @@ class Energy(Field):
             num (int): The number of the field output time to load
 
         Returns:
-            NDArray: The density field data
+            NDArray: The energy field data
         """
         return fromfile(f"{self._output._directory / 'gasenergy'}{num}{'.dat'}")
 
@@ -68,7 +68,7 @@ class Energy(Field):
         Returns:
             figure: The figure containing the plot
             axis: The axes containing the plot
-            colorbar: The colorbar for the density field
+            colorbar: The colorbar for the energy field
         """
         # assume x, y = phi, r
         phidata = self._output._xdomain

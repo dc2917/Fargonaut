@@ -40,7 +40,7 @@ class Velocity(Field):
             num (int): The number of the field output time to load
 
         Returns:
-            NDArray: The density field data
+            NDArray: The velocity field data
         """
         return fromfile(
             f"{self._output._directory / 'gasv'}{self._dimension}{num}{'.dat'}"
@@ -81,7 +81,7 @@ class Velocity(Field):
         Returns:
             figure: The figure containing the plot
             axis: The axes containing the plot
-            colorbar: The colorbar for the density field
+            colorbar: The colorbar for the velocity field
         """
         # assume x, y = phi, r
         coord_map = {"x": "r", "y": r"\phi", "z": "z"}
