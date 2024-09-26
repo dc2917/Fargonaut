@@ -8,6 +8,7 @@ from numpy.typing import NDArray
 from fargonaut.field import Field
 from fargonaut.fields.density import Density
 from fargonaut.fields.energy import Energy
+from fargonaut.fields.magnetic_field import MagneticField
 from fargonaut.fields.velocity import Velocity
 
 
@@ -123,6 +124,12 @@ class Output:
             return Density(self, num)
         elif name == "gasenergy":
             return Energy(self, num)
+        elif name == "bx":
+            return MagneticField(self, "x", num)
+        elif name == "by":
+            return MagneticField(self, "y", num)
+        elif name == "bz":
+            return MagneticField(self, "z", num)
         elif name == "gasvx":
             return Velocity(self, "x", num)
         elif name == "gasvy":
@@ -131,6 +138,28 @@ class Output:
             return Velocity(self, "z", num)
         else:
             raise NotImplementedError
+
+    @property
+    def coordinate_system(self) -> str:
+        """Whether field outputs contain ghost cell values.
+
+        Returns:
+            str: The coordinate system used in the simulation
+
+        Raises:
+            Exception: If _read_opts has not been executed
+        """
+        try:
+            if "CARTESIAN" in self._opts:
+                return "cartesian"
+            elif "CYLINDRICAL" in self._opts:
+                return "cylindrical"
+            elif "SPHERICAL" in self._opts:
+                return "spherical"
+            else:
+                return "unknown"
+        except AttributeError:
+            raise Exception("Simulation options have not been read.")
 
     @property
     def includes_ghosts(self) -> bool:
