@@ -3,6 +3,7 @@
 import os
 import tempfile
 import unittest
+import unittest.mock
 from pathlib import Path
 
 from numpy import array
@@ -131,7 +132,145 @@ class TestOutput(unittest.TestCase):
         self.assertEqual(self.output.get_opt("ISOTHERMAL"), True)
         self.assertEqual(self.output.get_opt("PARALLEL"), False)
 
-    def test_get_field(self) -> None:
+        del self.output._opts
+        with self.assertRaises(AttributeError):
+            self.output.get_opt("PARALLEL")
+
+    @unittest.mock.patch("fargonaut.output.Velocity")
+    @unittest.mock.patch("fargonaut.output.MagneticField")
+    @unittest.mock.patch("fargonaut.output.Energy")
+    @unittest.mock.patch("fargonaut.output.Density")
+    def test_get_field(
+        self, density_mock, energy_mock, magnetic_field_mock, velocity_mock
+    ) -> None:
         """Test Output's get_field method."""
+        self.output.get_field("gasdens", 2)
+        density_mock.assert_called_once_with(self.output, 2)
+        self.output.get_field("gasenergy", 3)
+        energy_mock.assert_called_once_with(self.output, 3)
+        self.output.get_field("gasvx", 4)
+        velocity_mock.assert_called_with(self.output, "x", 4)
+        self.output.get_field("gasvy", 5)
+        velocity_mock.assert_called_with(self.output, "y", 5)
+        self.output.get_field("gasvz", 6)
+        velocity_mock.assert_called_with(self.output, "z", 6)
+        self.assertEqual(velocity_mock.call_count, 3)
+        self.output.get_field("bx", 7)
+        magnetic_field_mock.assert_called_with(self.output, "x", 7)
+        self.output.get_field("by", 8)
+        magnetic_field_mock.assert_called_with(self.output, "y", 8)
+        self.output.get_field("bz", 9)
+        magnetic_field_mock.assert_called_with(self.output, "z", 9)
+        self.assertEqual(magnetic_field_mock.call_count, 3)
+
         with self.assertRaises(NotImplementedError):
-            self.output.get_field("gasvphi", 25)
+            self.output.get_field("undefinedfield", 25)
+
+    def test_coordinate_system(self) -> None:
+        """Test Output's coordinate_system property."""
+        self.assertEqual(self.output.coordinate_system, "cylindrical")
+
+        del self.output._opts
+        self.output._opts = ("CARTESIAN",)
+        self.assertEqual(self.output.coordinate_system, "cartesian")
+
+        del self.output._opts
+        self.output._opts = ("SPHERICAL",)
+        self.assertEqual(self.output.coordinate_system, "spherical")
+
+        del self.output._opts
+        self.output._opts = ("SOMETHING_ELSE",)
+        self.assertEqual(self.output.coordinate_system, "unknown")
+
+        del self.output._opts
+        with self.assertRaises(Exception):
+            self.output.coordinate_system
+
+    def test_includes_ghosts(self) -> None:
+        """Test Output's includes_ghosts property."""
+        self.assertEqual(self.output.includes_ghosts, False)
+
+        del self.output._opts
+        with self.assertRaises(Exception):
+            self.output.includes_ghosts
+
+    def test_xdomain(self) -> None:
+        """Test Output's xdomain property."""
+        xdomain = array([-3.14, -1.57, 0.0, 1.57, 3.14])
+        assert_array_equal(self.output.xdomain, xdomain)
+
+        del self.output._xdomain
+        with self.assertRaises(Exception):
+            self.output.xdomain
+
+    def test_ydomain(self) -> None:
+        """Test Output's ydomain property."""
+        ydomain = array([1.0, 2.0, 3.0])
+        assert_array_equal(self.output.ydomain, ydomain)
+
+        del self.output._ydomain
+        with self.assertRaises(Exception):
+            self.output.ydomain
+
+    def test_zdomain(self) -> None:
+        """Test Output's zdomain property."""
+        zdomain = array([-1.0, 0.0, 1.0])
+        assert_array_equal(self.output.zdomain, zdomain)
+
+        del self.output._zdomain
+        with self.assertRaises(Exception):
+            self.output.zdomain
+
+    def test_nx(self) -> None:
+        """Test Output's nx property."""
+        nx = 5
+        self.assertEqual(self.output.nx, nx)
+
+        del self.output._vars
+        with self.assertRaises(Exception):
+            self.output.nx
+
+    def test_ny(self) -> None:
+        """Test Output's ny property."""
+        ny = 3
+        self.assertEqual(self.output.ny, ny)
+
+        del self.output._vars
+        with self.assertRaises(Exception):
+            self.output.ny
+
+    def test_nz(self) -> None:
+        """Test Output's nz property."""
+        nz = 3
+        self.assertEqual(self.output.nz, nz)
+
+        del self.output._vars
+        with self.assertRaises(Exception):
+            self.output.nz
+
+    def test_nghx(self) -> None:
+        """Test Output's nghx property."""
+        nghx = 0
+        self.assertEqual(self.output.nghx, nghx)
+
+        del self.output._xdomain
+        with self.assertRaises(Exception):
+            self.output.nghx
+
+    def test_nghy(self) -> None:
+        """Test Output's nghy property."""
+        nghy = 0
+        self.assertEqual(self.output.nghy, nghy)
+
+        del self.output._ydomain
+        with self.assertRaises(Exception):
+            self.output.nghy
+
+    def test_nghz(self) -> None:
+        """Test Output's nghz property."""
+        nghz = 0
+        self.assertEqual(self.output.nghz, nghz)
+
+        del self.output._zdomain
+        with self.assertRaises(Exception):
+            self.output.nghz
