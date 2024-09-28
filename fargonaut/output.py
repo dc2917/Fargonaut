@@ -271,7 +271,7 @@ class Output:
         """Number of ghost cells used in the x dimension.
 
         Returns:
-            int: The number of cells used in the z dimension.
+            int: The number of ghost cells used in the x dimension.
 
         Raises:
             Exception: If _read_domains has not been executed
@@ -286,7 +286,7 @@ class Output:
         """Number of ghost cells used in the y dimension.
 
         Returns:
-            int: The number of cells used in the z dimension.
+            int: The number of ghost cells used in the y dimension.
 
         Raises:
             Exception: If _read_domains has not been executed
@@ -301,7 +301,7 @@ class Output:
         """Number of ghost cells used in the z dimension.
 
         Returns:
-            int: The number of cells used in the z dimension.
+            int: The number of ghost cells used in the z dimension.
 
         Raises:
             Exception: If _read_domains has not been executed
