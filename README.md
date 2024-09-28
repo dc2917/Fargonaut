@@ -2,6 +2,9 @@
 
 Fargonaut is a package for post-processing and visualising outputs of [FARGO3D](https://github.com/FARGO3D/fargo3d), written in Python.
 
+[![Build and test](https://github.com/dc2917/Fargonaut/actions/workflows/ci.yml/badge.svg)](https://github.com/dc2917/Fargonaut/actions/workflows/ci.yml)
+
+
 ```py
 >>> from fargonaut.output import Output
 
