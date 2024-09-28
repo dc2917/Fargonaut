@@ -1,8 +1,7 @@
 """An energy field handler."""
 
-from matplotlib.pyplot import axis, colorbar, figure, pcolormesh, show, subplot
-from numpy import cos, float64, fromfile, meshgrid, reshape, sin
-from numpy.typing import NDArray
+from matplotlib.pyplot import axis, colorbar, figure
+from numpy import cos, fromfile, meshgrid, sin
 
 from fargonaut.field import Field
 
@@ -55,88 +54,333 @@ class Energy(Field):
         if self._output.nghz:
             self._zdata = self._zdata[self._output.nghz : -self._output.nghz]
 
-    def _process_data(self) -> None:
-        """Reshape the field data to the domain."""
-        self._data = reshape(self._raw, (self._output.ny, self._output.nx))
-
-    def plot(self, csys: str = "polar") -> tuple[figure, axis, colorbar]:
-        """Plot the energy field.
+    def _get_2D_cartesian_plot_data(
+        self, csys: str, dims: str, idx: int
+    ) -> tuple[figure, axis, colorbar]:
+        """Plot a 2D slice of the cartesian field.
 
         Args:
             csys (str): The coordinate system on which to plot the field
+            dims (str): The dimensions of the field to plot
+            idx (int): The index of the slice to plot
 
         Returns:
             figure: The figure containing the plot
             axis: The axes containing the plot
-            colorbar: The colorbar for the energy field
+            colorbar: The colorbar for the field
         """
-        # assume x, y = phi, r
-        phidata = self._output._xdomain
-        rdata = self._output._ydomain[3:-3]
-        rgrid, phigrid = meshgrid(rdata, phidata, indexing="ij")
-        fig = figure()
-        axs = subplot(111)
-        clabel = "$e$"
+        xdata = self._output._xdomain
+        ydata = self._output._ydomain
+        zdata = self._output._zdomain
+
+        if self._output.nghx:
+            xdata = xdata[self._output.nghx : -self._output.nghx]
+        if self._output.nghy:
+            ydata = ydata[self._output.nghy : -self._output.nghy]
+        if self._output.nghz:
+            zdata = zdata[self._output.nghz : -self._output.nghz]
+
+        xgrid, ygrid, zgrid = meshgrid(xdata, ydata, zdata, indexing="ij")
+
         if csys == "polar":
-            xlabel = r"$\phi$"
-            ylabel = "$r$"
-            pcolormesh(phigrid, rgrid, self._data, shading="flat")
+            raise NotImplementedError
         elif csys == "cartesian":
-            xlabel = "$x$"
-            ylabel = "$y$"
-            xgrid = rgrid * cos(phigrid)
-            ygrid = rgrid * sin(phigrid)
-            pcolormesh(xgrid, ygrid, self._data, shading="flat")
+            coord_map = {
+                "x": [xgrid, "$x$"],
+                "y": [ygrid, "$y$"],
+                "z": [zgrid, "$z$"],
+            }
         else:
             raise ValueError(f"Unknown coordinate system {csys}")
-        axs.set_xlabel(xlabel)
-        axs.set_ylabel(ylabel)
-        cb = colorbar()
-        cb.set_label(clabel)
-        show()
-        return fig, axs, cb
 
-    @property
-    def x(self) -> NDArray[float64]:
-        """The x-coordinates at which the energy is defined.
+        xgrid = coord_map[dims[0]][0]
+        ygrid = coord_map[dims[1]][0]
+        xlabel = coord_map[dims[0]][1]
+        ylabel = coord_map[dims[1]][1]
 
-        Returns:
-            NDArray: A numpy array containing the x-coordinates
-        """
-        return self._xdata
+        if dims == "xy":
+            X = xgrid[:, :, idx]
+            Y = ygrid[:, :, idx]
+            C = self._data[:, :, idx]
+        elif dims == "xz":
+            X = xgrid[:, idx, :]
+            Y = ygrid[:, idx, :]
+            C = self._data[:, idx, :]
+        elif dims == "yz":
+            X = xgrid[idx, :, :]
+            Y = ygrid[idx, :, :]
+            C = self._data[idx, :, :]
 
-    @property
-    def y(self) -> NDArray[float64]:
-        """The y-coordinates at which the energy is defined.
+        return X, Y, C, xlabel, ylabel, "$e$"
 
-        Returns:
-            NDArray: A numpy array containing the y-coordinates
-        """
-        return self._ydata
+    def _get_2D_cylindrical_plot_data(
+        self, csys: str, dims: str, idx: int
+    ) -> tuple[figure, axis, colorbar]:
+        """Plot a 2D slice of the cylindrical field.
 
-    @property
-    def z(self) -> NDArray[float64]:
-        """The z-coordinates at which the energy is defined.
-
-        Returns:
-            NDArray: A numpy array containing the z-coordinates
-        """
-        return self._zdata
-
-    @property
-    def raw(self) -> NDArray[float64]:
-        """The energy values.
+        Args:
+            csys (str): The coordinate system on which to plot the field
+            dims (str): The dimensions of the field to plot
+            idx (int): The index of the slice to plot
 
         Returns:
-            NDArray: A 1D numpy array containing the energy values
+            figure: The figure containing the plot
+            axis: The axes containing the plot
+            colorbar: The colorbar for the field
         """
-        return self._raw
+        phidata = self._output._xdomain
+        rdata = self._output._ydomain
+        zdata = self._output._zdomain
 
-    @property
-    def data(self) -> NDArray[float64]:
-        """The energy values.
+        if self._output.nghx:
+            phidata = phidata[self._output.nghx : -self._output.nghx]
+        if self._output.nghy:
+            rdata = rdata[self._output.nghy : -self._output.nghy]
+        if self._output.nghz:
+            zdata = zdata[self._output.nghz : -self._output.nghz]
+
+        phigrid, rgrid, zgrid = meshgrid(phidata, rdata, zdata, indexing="ij")
+
+        if csys == "polar":
+            coord_map = {
+                "x": [phigrid, r"$\phi$"],
+                "y": [rgrid, "$r$"],
+                "z": [zgrid, "$z$"],
+            }
+        elif csys == "cartesian":
+            coord_map = {
+                "x": [rgrid * cos(phigrid), "$x$"],
+                "y": [rgrid * sin(phigrid), "$y$"],
+                "z": [zgrid, "$z$"],
+            }
+        else:
+            raise ValueError(f"Unknown coordinate system {csys}")
+
+        xgrid = coord_map[dims[0]][0]
+        ygrid = coord_map[dims[1]][0]
+        xlabel = coord_map[dims[0]][1]
+        ylabel = coord_map[dims[1]][1]
+
+        if dims == "xy":
+            X = xgrid[:, :, idx]
+            Y = ygrid[:, :, idx]
+            C = self._data[:, :, idx]
+        elif dims == "xz":
+            X = xgrid[:, idx, :]
+            Y = xgrid[:, idx, :]
+            C = self._data[:, idx, :]
+        elif dims == "yz":
+            X = xgrid[idx, :, :]
+            Y = ygrid[idx, :, :]
+            C = self._data[idx, :, :]
+
+        return X, Y, C, xlabel, ylabel, "$e$"
+
+    def _get_2D_spherical_plot_data(
+        self, csys: str, dims: str, idx: int
+    ) -> tuple[figure, axis, colorbar]:
+        """Plot a 2D slice of the spherical field.
+
+        Args:
+            csys (str): The coordinate system on which to plot the field
+            dims (str): The dimensions of the field to plot
+            idx (int): The index of the slice to plot
 
         Returns:
-            NDArray: A shaped numpy array containing the energy values
+            figure: The figure containing the plot
+            axis: The axes containing the plot
+            colorbar: The colorbar for the field
         """
-        return self._data
+        phidata = self._output._xdomain
+        rdata = self._output._ydomain
+        thetadata = self._output._zdomain
+
+        if self._output.nghx:
+            phidata = phidata[self._output.nghx : -self._output.nghx]
+        if self._output.nghy:
+            rdata = rdata[self._output.nghy : -self._output.nghy]
+        if self._output.nghz:
+            thetadata = thetadata[self._output.nghz : -self._output.nghz]
+
+        phigrid, rgrid, thetagrid = meshgrid(phidata, rdata, thetadata, indexing="ij")
+
+        if csys == "polar":
+            coord_map = {
+                "x": [phigrid, r"$\phi$"],
+                "y": [rgrid, "$r$"],
+                "z": [thetagrid, r"$\theta$"],
+            }
+        elif csys == "cartesian":
+            coord_map = {
+                "x": [rgrid * cos(phigrid) * sin(thetagrid), "$x$"],
+                "y": [rgrid * sin(phigrid) * sin(thetagrid), "$y$"],
+                "z": [rgrid * cos(thetagrid), "$z$"],
+            }
+        else:
+            raise ValueError(f"Unknown coordinate system {csys}")
+
+        xgrid = coord_map[dims[0]][0]
+        ygrid = coord_map[dims[1]][0]
+        xlabel = coord_map[dims[0]][1]
+        ylabel = coord_map[dims[1]][1]
+
+        if dims == "xy":
+            X = xgrid[:, :, idx]
+            Y = ygrid[:, :, idx]
+            C = self._data[:, :, idx]
+        elif dims == "xz":
+            X = xgrid[:, idx, :]
+            Y = ygrid[:, idx, :]
+            C = self._data[:, idx, :]
+        elif dims == "yz":
+            X = xgrid[idx, :, :]
+            Y = ygrid[idx, :, :]
+            C = self._data[idx, :, :]
+
+        return X, Y, C, xlabel, ylabel, "$e$"
+
+    def _get_1D_cartesian_plot_data(
+        self, csys: str, dims: str, idx: tuple[int, int]
+    ) -> tuple[figure, axis]:
+        """Plot a 1D slice of the cartesian field.
+
+        Args:
+            csys (str): The coordinate system on which to plot the field
+            dims (str): The dimensions of the field to plot
+            idx (tuple[int, int]): The indices of the slice to plot
+
+        Returns:
+            figure: The figure containing the plot
+            axis: The axes containing the plot
+        """
+        xdata = self._xdata
+        ydata = self._ydata
+        zdata = self._zdata
+
+        xgrid, ygrid, zgrid = meshgrid(xdata, ydata, zdata, indexing="ij")
+
+        if csys == "polar":
+            raise NotImplementedError
+        elif csys == "cartesian":
+            coord_map = {
+                "x": [xgrid, "$x$"],
+                "y": [ygrid, "$y$"],
+                "z": [zgrid, "$z$"],
+            }
+        else:
+            raise ValueError(f"Unknown coordinate system {csys}")
+
+        xgrid = coord_map[dims][0]
+        xlabel = coord_map[dims][1]
+
+        if dims == "x":
+            X = xgrid[:, idx[0], idx[1]]
+            Y = self._data[:, idx[0], idx[1]]
+        elif dims == "y":
+            X = xgrid[idx[0], :, idx[1]]
+            Y = self._data[idx[0], :, idx[1]]
+        elif dims == "z":
+            X = xgrid[idx[0], idx[1], :]
+            Y = self._data[idx[0], idx[1], :]
+
+        return X, Y, xlabel, "$e$"
+
+    def _get_1D_cylindrical_plot_data(
+        self, csys: str, dims: str, idx: tuple[int, int]
+    ) -> tuple[figure, axis]:
+        """Plot a 1D slice of the cylindrical field.
+
+        Args:
+            csys (str): The coordinate system on which to plot the field
+            dims (str): The dimensions of the field to plot
+            idx (tuple[int, int]): The indices of the slice to plot
+
+        Returns:
+            figure: The figure containing the plot
+            axis: The axes containing the plot
+        """
+        phidata = self._xdata
+        rdata = self._ydata
+        zdata = self._zdata
+
+        phigrid, rgrid, zgrid = meshgrid(phidata, rdata, zdata, indexing="ij")
+
+        if csys == "polar":
+            coord_map = {
+                "x": [phigrid, r"$\phi$"],
+                "y": [rgrid, "$r$"],
+                "z": [zgrid, "$z$"],
+            }
+        elif csys == "cartesian":
+            coord_map = {
+                "x": [rgrid * cos(phigrid), "$x$"],
+                "y": [rgrid * sin(phigrid), "$y$"],
+                "z": [zgrid, "$z$"],
+            }
+        else:
+            raise ValueError(f"Unknown coordinate system {csys}")
+
+        xgrid = coord_map[dims][0]
+        xlabel = coord_map[dims][1]
+
+        if dims == "x":
+            X = xgrid[:, idx[0], idx[1]]
+            Y = self._data[:, idx[0], idx[1]]
+        elif dims == "y":
+            X = xgrid[idx[0], :, idx[1]]
+            Y = self._data[idx[0], :, idx[1]]
+        elif dims == "z":
+            X = xgrid[idx[0], idx[1], :]
+            Y = self._data[idx[0], idx[1], :]
+
+        return X, Y, xlabel, "$e$"
+
+    def _get_1D_spherical_plot_data(
+        self, csys: str, dims: str, idx: tuple[int, int]
+    ) -> tuple[figure, axis]:
+        """Plot a 1D slice of the spherical field.
+
+        Args:
+            csys (str): The coordinate system on which to plot the field
+            dims (str): The dimensions of the field to plot
+            idx (tuple[int, int]): The indices of the slice to plot
+
+        Returns:
+            figure: The figure containing the plot
+            axis: The axes containing the plot
+        """
+        phidata = self._xdata
+        rdata = self._ydata
+        thetadata = self._zdata
+
+        phigrid, rgrid, thetagrid = meshgrid(phidata, rdata, thetadata, indexing="ij")
+
+        if csys == "polar":
+            coord_map = {
+                "x": [phigrid, r"$\phi$"],
+                "y": [rgrid, "$r$"],
+                "z": [thetagrid, r"$\theta$"],
+            }
+        elif csys == "cartesian":
+            coord_map = {
+                "x": [rgrid * cos(phigrid) * sin(thetagrid), "$x$"],
+                "y": [rgrid * sin(phigrid) * sin(thetagrid), "$y$"],
+                "z": [rgrid * cos(thetagrid), "$z$"],
+            }
+        else:
+            raise ValueError(f"Unknown coordinate system {csys}")
+
+        xgrid = coord_map[dims][0]
+        xlabel = coord_map[dims][1]
+
+        if dims == "x":
+            X = xgrid[:, idx[0], idx[1]]
+            Y = self._data[:, idx[0], idx[1]]
+        elif dims == "y":
+            X = xgrid[idx[0], :, idx[1]]
+            Y = self._data[idx[0], :, idx[1]]
+        elif dims == "z":
+            X = xgrid[idx[0], idx[1], :]
+            Y = self._data[idx[0], idx[1], :]
+
+        return X, Y, xlabel, "$e$"
