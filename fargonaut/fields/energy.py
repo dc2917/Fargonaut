@@ -1,7 +1,8 @@
 """An energy field handler."""
 
 from matplotlib.pyplot import axis, colorbar, figure
-from numpy import cos, fromfile, meshgrid, sin
+from numpy import cos, float64, fromfile, meshgrid, sin
+from numpy.typing import NDArray
 
 from fargonaut.field import Field
 
@@ -30,7 +31,7 @@ class Energy(Field):
         self._process_domains()
         self._process_data()
 
-    def _load(self, num: int):
+    def _load(self, num: int) -> NDArray[float64]:
         """Load the energy field data from file.
 
         Args:
@@ -167,7 +168,7 @@ class Energy(Field):
             C = self._data[:, :, idx]
         elif dims == "xz":
             X = xgrid[:, idx, :]
-            Y = xgrid[:, idx, :]
+            Y = ygrid[:, idx, :]
             C = self._data[:, idx, :]
         elif dims == "yz":
             X = xgrid[idx, :, :]

@@ -168,7 +168,7 @@ class Density(Field):
             C = self._data[:, :, idx]
         elif dims == "xz":
             X = xgrid[:, idx, :]
-            Y = xgrid[:, idx, :]
+            Y = ygrid[:, idx, :]
             C = self._data[:, idx, :]
         elif dims == "yz":
             X = xgrid[idx, :, :]
