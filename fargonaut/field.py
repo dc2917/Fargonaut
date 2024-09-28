@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 
-from matplotlib.pyplot import axis, colorbar, figure, pcolormesh, plot, show, subplot
+import matplotlib.pyplot as plt
 from numpy import float64, reshape
 from numpy.typing import NDArray
 
@@ -31,7 +31,7 @@ class Field(ABC):
     @abstractmethod
     def _get_2D_cartesian_plot_data(
         self, csys: str = "cartesian", dims: str = "xy", idx: int = 0
-    ) -> tuple[figure, axis, colorbar]:
+    ) -> tuple[plt.figure, plt.subplot, plt.colorbar]:
         """Plot a 2D slice of the cartesian field.
 
         Args:
@@ -48,7 +48,7 @@ class Field(ABC):
     @abstractmethod
     def _get_2D_cylindrical_plot_data(
         self, csys: str = "polar", dims: str = "xy", idx: int = 0
-    ) -> tuple[figure, axis, colorbar]:
+    ) -> tuple[plt.figure, plt.subplot, plt.colorbar]:
         """Plot a 2D slice of the cylindrical field.
 
         Args:
@@ -65,7 +65,7 @@ class Field(ABC):
     @abstractmethod
     def _get_2D_spherical_plot_data(
         self, csys: str = "polar", dims: str = "xy", idx: int = 0
-    ) -> tuple[figure, axis, colorbar]:
+    ) -> tuple[plt.figure, plt.subplot, plt.colorbar]:
         """Plot a 2D slice of the spherical field.
 
         Args:
@@ -82,7 +82,7 @@ class Field(ABC):
     @abstractmethod
     def _get_1D_cartesian_plot_data(
         self, csys: str = "cartesian", dims: str = "x", idx: tuple[int, int] = (0, 0)
-    ) -> tuple[figure, axis, colorbar]:
+    ) -> tuple[plt.figure, plt.subplot]:
         """Plot a 1D slice of the cartesian field.
 
         Args:
@@ -98,7 +98,7 @@ class Field(ABC):
     @abstractmethod
     def _get_1D_cylindrical_plot_data(
         self, csys: str = "polar", dims: str = "x", idx: tuple[int, int] = (0, 0)
-    ) -> tuple[figure, axis, colorbar]:
+    ) -> tuple[plt.figure, plt.subplot]:
         """Plot a 1D slice of the cylindrical field.
 
         Args:
@@ -114,7 +114,7 @@ class Field(ABC):
     @abstractmethod
     def _get_1D_spherical_plot_data(
         self, csys: str = "polar", dims: str = "x", idx: tuple[int, int] = (0, 0)
-    ) -> tuple[figure, axis, colorbar]:
+    ) -> tuple[plt.figure, plt.subplot]:
         """Plot a 1D slice of the spherical field.
 
         Args:
@@ -129,7 +129,7 @@ class Field(ABC):
 
     def plot(
         self, csys: str = "polar", dims: str = "xy", idx: int = 0
-    ) -> tuple[figure, axis, colorbar] | tuple[figure, axis]:
+    ) -> tuple[plt.figure, plt.subplot, plt.colorbar] | tuple[plt.figure, plt.subplot]:
         """Plot the field.
 
         dims can be "xy", "xz", "yz", "yx", "zx", "zy", taking a 2D slice of 3D data
@@ -163,14 +163,14 @@ class Field(ABC):
                 )
             else:
                 raise NotImplementedError(f"Unable to plot on coordinate system {csys}")
-            fig = figure()
-            axs = subplot(111)
-            pcolormesh(X, Y, C, shading="flat")
+            fig = plt.figure()
+            axs = plt.subplot(111)
+            plt.pcolormesh(X, Y, C, shading="flat")
             axs.set_xlabel(xlabel)
             axs.set_ylabel(ylabel)
-            cb = colorbar()
+            cb = plt.colorbar()
             cb.set_label(clabel)
-            show()
+            plt.show()
             return fig, axs, cb
 
         elif len(dims) == 1:
@@ -184,12 +184,12 @@ class Field(ABC):
                 X, Y, xlabel, ylabel = self._get_1D_spherical_plot_data(csys, dims, idx)
             else:
                 raise NotImplementedError(f"Unable to plot on coordinate system {csys}")
-            fig = figure()
-            axs = subplot(111)
-            plot(X, Y)
+            fig = plt.figure()
+            axs = plt.subplot(111)
+            plt.plot(X, Y)
             axs.set_xlabel(xlabel)
             axs.set_ylabel(ylabel)
-            show()
+            plt.show()
             return fig, axs
 
     @property
