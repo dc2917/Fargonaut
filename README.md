@@ -15,7 +15,7 @@ Fargonaut is a package for post-processing and visualising outputs of [FARGO3D](
 
 ![Gas surface density output 50](docs/images/fargo_gasdens50.png)
 
-See the documentation for installation instructions, example usage and the API reference.
+See the [documentation](https://dc2917.github.io/Fargonaut/user_docs.html) for installation instructions, example usage and the API reference.
 
 ## Contributing to Fargonaut
 
