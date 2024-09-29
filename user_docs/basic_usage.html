@@ -18,10 +18,11 @@
         <script src="../_static/documentation_options.js?v=5929fcd5"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Contributing Guidelines" href="contrib_guide.html" />
+    <link rel="next" title="API Reference" href="../api_ref.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
@@ -48,8 +49,11 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../user_docs.html">User Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Basic Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contrib_guide.html">Contributing Guidelines</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Basic Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#opening-an-output">Opening an output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opening-field-data-files">Opening field data files</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api_ref.html">API Reference</a></li>
@@ -82,7 +86,8 @@
              
   <section id="basic-usage">
 <h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading"></a></h1>
-<p>Locate the directory containing the FARGO3D output you want to open. For demonstrative purposes, we will use “/path/to/fargo3d/outputs”, and use the “fargo” output, created when running the example “fargo” setup.</p>
+<section id="opening-an-output">
+<h2>Opening an output<a class="headerlink" href="#opening-an-output" title="Link to this heading"></a></h2>
 <p>Open the Python interpreter:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python
 </pre></div>
@@ -95,11 +100,19 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span><span class="s2">&quot;/path/to/fargo3d/outputs/fargo&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Using the <code class="docutils literal notranslate"><span class="pre">Output</span></code> class:</p>
+<p>Note that you should replace /path/to/fargo3d/outputs/fargo with the path to the output you wish to open. For demonstrative purposes, here we will use the “fargo” output that is created when running the example “fargo” setup.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">output</span></code> object contains the high-level details of the simulation output, such as the variables set and the compilation options used, amongst other things:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="go">Help on Output in module fargonaut.output object:</span>
+
+<span class="go">class Output(builtins.object)</span>
+<span class="go">|  Output(directory: str) -&gt; None</span>
+<span class="go">|</span>
+<span class="go">|  A FARGO3D simulation output.</span>
+<span class="go">...</span>
 </pre></div>
 </div>
-<p>Retrieve variables defined in the variables.par file using the <code class="docutils literal notranslate"><span class="pre">get_var</span></code> method, e.g.:</p>
+<p>You can etrieve variables defined in the variables.par file using the <code class="docutils literal notranslate"><span class="pre">get_var</span></code> method, e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="s2">&quot;FRAME&quot;</span><span class="p">)</span>
 <span class="go">&#39;G&#39;</span>
 </pre></div>
@@ -115,10 +128,50 @@
 <span class="go">array([-3.14159265, -3.12523019, -3.10886773, ..., 0, ... 3.14159265])</span>
 </pre></div>
 </div>
+</section>
+<section id="opening-field-data-files">
+<h2>Opening field data files<a class="headerlink" href="#opening-field-data-files" title="Link to this heading"></a></h2>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">get_field</span></code> method to retrieve a field at a given output time. The names of the fields are those of the corresponding output files, e.g. to retrieve the gas density:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="s2">&quot;gasdens&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
+<p><code class="docutils literal notranslate"><span class="pre">gasdens50</span></code> contains the gas density data at output number 50, along with associated information such as the coordinates at which it is defined:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">gasdens50</span><span class="p">)</span>
+<span class="go">Help on Density in module fargonaut.fields.density object:</span>
+
+<span class="go">class Density(fargonaut.field.Field)</span>
+<span class="go">|  Density(output, num: int) -&gt; None</span>
+<span class="go">|</span>
+<span class="go">|  A FARGO3D gas density field.</span>
+<span class="go">...</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">x</span>
+<span class="go">array([-3.13341142, -3.11704896, -3.1006865, ..., 3.13341142]).</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">y</span>
+<span class="go">array([0.40820312, 0.42460938, 0.44101563, ..., 2.49179687])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">z</span>
+<span class="go">array([0.])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">data</span>
+<span class="go">array([[[0.00060339],</span>
+<span class="go">        [0.00058012],</span>
+<span class="go">        [0.00067794],</span>
+<span class="go">        ...,</span>
+</pre></div>
+</div>
+<p>Use a <code class="docutils literal notranslate"><span class="pre">Field</span></code>’s <code class="docutils literal notranslate"><span class="pre">plot</span></code> method to generate a 1D line or 2D surface plot of the field as a function of one or more coordinates, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>will create a 2D surface plot of the gas density as a function of its <span class="math notranslate nohighlight">\(x\)</span>- and <span class="math notranslate nohighlight">\(y\)</span>-coordinates. As the coordinate system used in this simulation is cylindrical, this will be a function of azimuth and radius. To convert this to cartesian <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;cartesian&quot;</span><span class="p">,</span> <span class="s2">&quot;xy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Generating 1D line plots of a field requires specifying the indices at which to slice the data. For example, to plot the gas density as a function of radius, at <span class="math notranslate nohighlight">\(\phi = 0\)</span>, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;polar&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">288</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>as 288 is the index closest to <span class="math notranslate nohighlight">\(\phi = \pi\)</span> (and 0 is the <span class="math notranslate nohighlight">\(z\)</span> index, as <code class="docutils literal notranslate"><span class="pre">nz</span></code> is 1 for this simulation).</p>
+</section>
 </section>
 
 
@@ -126,7 +179,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="contrib_guide.html" class="btn btn-neutral float-right" title="Contributing Guidelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../api_ref.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
