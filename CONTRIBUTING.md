@@ -8,9 +8,23 @@ Similarly, if you have found a bug or a mistake, please open an issue describing
 
 If you would like to contribute code, please:
 
+1. Open an issue to detail the change/addition you wish to make, unless one already exists
+
 1. Fork the repository
 
-1. Open an issue to detail the change/addition you wish to make, unless one already exists
+1. Make a clone of your fork
+
+1. Install the development requirements
+
+   ```bash
+   $ python -m unittest discover tests
+   ```
+
+1. Install the pre-commit hooks:
+
+   ```bash
+   $ python -m unittest discover tests
+   ```
 
 1. Create a feature branch and make your changes
 
