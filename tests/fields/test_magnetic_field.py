@@ -174,7 +174,7 @@ class TestMagneticField(unittest.TestCase):
         C_expected = self.b_x.data[:, :, 0]
         xlabel_expected = "$x$"
         ylabel_expected = "$y$"
-        clabel_expected = "$B_$x$$"
+        clabel_expected = "$B_x$"
         X, Y, C, xlabel, ylabel, clabel = self.b_x._get_2D_cartesian_plot_data(
             "cartesian", "xy", 0
         )
@@ -317,7 +317,7 @@ class TestMagneticField(unittest.TestCase):
         C_expected = self.b_x.data[:, :, 0]
         xlabel_expected = "$x$"
         ylabel_expected = "$y$"
-        clabel_expected = r"$B_$x$$"
+        clabel_expected = "$B_x$"
         X, Y, C, xlabel, ylabel, clabel = self.b_x._get_2D_cylindrical_plot_data(
             "cartesian", "xy", 0
         )
@@ -501,7 +501,7 @@ class TestMagneticField(unittest.TestCase):
         C_expected = self.b_x.data[:, :, 0]
         xlabel_expected = "$x$"
         ylabel_expected = "$y$"
-        clabel_expected = "$B_$x$$"
+        clabel_expected = "$B_x$"
         X, Y, C, xlabel, ylabel, clabel = self.b_x._get_2D_spherical_plot_data(
             "cartesian", "xy", 0
         )
@@ -590,7 +590,7 @@ class TestMagneticField(unittest.TestCase):
         X_expected = array([-1.57, 0])
         Y_expected = self.b_x.data[:, 0, 0]
         xlabel_expected = "$x$"
-        ylabel_expected = r"$B_$x$$"
+        ylabel_expected = "$B_x$"
         X, Y, xlabel, ylabel = self.b_x._get_1D_cartesian_plot_data(
             "cartesian", "x", (0, 0)
         )
@@ -665,7 +665,7 @@ class TestMagneticField(unittest.TestCase):
         X_expected = r_expected * cos(phi_expected)
         Y_expected = self.b_x.data[:, 0, 0]
         xlabel_expected = "$x$"
-        ylabel_expected = r"$B_$x$$"
+        ylabel_expected = "$B_x$"
         X, Y, xlabel, ylabel = self.b_x._get_1D_cylindrical_plot_data(
             "cartesian", "x", (0, 0)
         )
@@ -753,7 +753,7 @@ class TestMagneticField(unittest.TestCase):
         X_expected = r_expected * cos(phi_expected) * sin(theta_expected)
         Y_expected = self.b_x.data[:, 0, 0]
         xlabel_expected = "$x$"
-        ylabel_expected = r"$B_$x$$"
+        ylabel_expected = "$B_x$"
         X, Y, xlabel, ylabel = self.b_x._get_1D_spherical_plot_data(
             "cartesian", "x", (0, 0)
         )

@@ -125,7 +125,9 @@ class Velocity(Field):
             Y = ygrid[idx, :, :]
             C = self._data[idx, :, :]
 
-        return X, Y, C, xlabel, ylabel, f"$v_{coord_map[self._dimension][1]}$"
+        clabel = f"$v_{coord_map[self._dimension][1].strip('$')}$"
+
+        return X, Y, C, xlabel, ylabel, clabel
 
     def _get_2D_cylindrical_plot_data(
         self, csys: str, dims: str, idx: int
@@ -188,10 +190,7 @@ class Velocity(Field):
             Y = ygrid[idx, :, :]
             C = self._data[idx, :, :]
 
-        if self._dimension == "x" and csys == "polar":
-            clabel = r"$v_\phi$"
-        else:
-            clabel = f"$v_{coord_map[self._dimension][1]}$"
+        clabel = f"$v_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, C, xlabel, ylabel, clabel
 
@@ -256,13 +255,7 @@ class Velocity(Field):
             Y = ygrid[idx, :, :]
             C = self._data[idx, :, :]
 
-        if csys == "polar":
-            if self._dimension == "x":
-                clabel = r"$v_\phi$"
-            elif self._dimension == "z":
-                clabel = r"$v_\theta$"
-        else:
-            clabel = f"$v_{coord_map[self._dimension][1]}$"
+        clabel = f"$v_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, C, xlabel, ylabel, clabel
 
@@ -310,7 +303,9 @@ class Velocity(Field):
             X = xgrid[idx[0], idx[1], :]
             Y = self._data[idx[0], idx[1], :]
 
-        return X, Y, xlabel, f"$v_{coord_map[self._dimension][1]}$"
+        ylabel = f"$v_{coord_map[self._dimension][1].strip('$')}$"
+
+        return X, Y, xlabel, ylabel
 
     def _get_1D_cylindrical_plot_data(
         self, csys: str, dims: str, idx: tuple[int, int]
@@ -360,10 +355,7 @@ class Velocity(Field):
             X = xgrid[idx[0], idx[1], :]
             Y = self._data[idx[0], idx[1], :]
 
-        if self._dimension == "x" and csys == "polar":
-            ylabel = r"$v_\phi$"
-        else:
-            ylabel = f"$v_{coord_map[self._dimension][1]}$"
+        ylabel = f"$v_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, xlabel, ylabel
 
@@ -415,12 +407,6 @@ class Velocity(Field):
             X = xgrid[idx[0], idx[1], :]
             Y = self._data[idx[0], idx[1], :]
 
-        if csys == "polar":
-            if self._dimension == "x":
-                ylabel = r"$v_\phi$"
-            elif self._dimension == "z":
-                ylabel = r"$v_\theta$"
-        else:
-            ylabel = f"$v_{coord_map[self._dimension][1]}$"
+        ylabel = f"$v_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, xlabel, ylabel
