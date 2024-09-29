@@ -141,7 +141,7 @@ class Output:
 
     @property
     def coordinate_system(self) -> str:
-        """Whether field outputs contain ghost cell values.
+        """The coordinate system used in the simulation.
 
         Returns:
             str: The coordinate system used in the simulation
@@ -150,16 +150,9 @@ class Output:
             Exception: If _read_opts has not been executed
         """
         try:
-            if "CARTESIAN" in self._opts:
-                return "cartesian"
-            elif "CYLINDRICAL" in self._opts:
-                return "cylindrical"
-            elif "SPHERICAL" in self._opts:
-                return "spherical"
-            else:
-                return "unknown"
+            return self._vars["COORDINATES"]
         except AttributeError:
-            raise Exception("Simulation options have not been read.")
+            raise Exception("Output variables have not been read.")
 
     @property
     def includes_ghosts(self) -> bool:
