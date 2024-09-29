@@ -26,7 +26,7 @@ SUMMARY0 = (
     "stuff\n==\nCOMPILATION OPTION SECTION:\n==\n"
     "-DX -DY -DISOTHERMAL -DCYLINDRICAL\nmore stuff\n"
 )
-VARIABLES = "VAR1\tVAL1\nVAR2\tVAL2\nNX\t5\nNY\t3\nNZ\t3\nVARN\tVALN\n"
+VARIABLES = "VAR1\tVAL1\nCOORDINATES\tcylindrical\nNX\t5\nNY\t3\nNZ\t3\nVARN\tVALN\n"
 
 
 class TestOutput(unittest.TestCase):
@@ -110,7 +110,7 @@ class TestOutput(unittest.TestCase):
         """Test Output's _read_vars method."""
         variables = {
             "VAR1": "VAL1",
-            "VAR2": "VAL2",
+            "COORDINATES": "cylindrical",
             "NX": "5",
             "NY": "3",
             "NZ": "3",
@@ -170,19 +170,15 @@ class TestOutput(unittest.TestCase):
         """Test Output's coordinate_system property."""
         self.assertEqual(self.output.coordinate_system, "cylindrical")
 
-        del self.output._opts
-        self.output._opts = ("CARTESIAN",)
+        del self.output._vars
+        self.output._vars = {"COORDINATES": "cartesian"}
         self.assertEqual(self.output.coordinate_system, "cartesian")
 
-        del self.output._opts
-        self.output._opts = ("SPHERICAL",)
+        del self.output._vars
+        self.output._vars = {"COORDINATES": "spherical"}
         self.assertEqual(self.output.coordinate_system, "spherical")
 
-        del self.output._opts
-        self.output._opts = ("SOMETHING_ELSE",)
-        self.assertEqual(self.output.coordinate_system, "unknown")
-
-        del self.output._opts
+        del self.output._vars
         with self.assertRaises(Exception):
             self.output.coordinate_system
 
