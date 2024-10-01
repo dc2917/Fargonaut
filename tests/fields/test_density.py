@@ -822,3 +822,71 @@ class TestDensity(unittest.TestCase):
         """Test Field's data property."""
         expected = GASDENS1.reshape((2, 3, 1), order="F")
         assert_array_equal(self.density.data, expected)
+
+    def test_check_valid_for_arithmetic(self) -> None:
+        """Test Field's _check_valid_for_arithmetic method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        self.assertEqual(
+            None,
+            self.density._check_valid_for_arithmetic(field2, "arithmetic_operation"),
+        )
+        with self.assertRaises(Exception):
+            self.density._check_valid_for_arithmetic(
+                "not_a_Field", "arithmetic_operation"
+            )
+
+        field2._xdata = self.density._xdata - 3.14 / 4
+        with self.assertRaises(Exception):
+            self.density._check_valid_for_arithmetic(field2, "arithmetic_operation")
+
+    def test_add(self) -> None:
+        """Test Field's __add__ method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        field2._raw = rand(6)
+        field2._data = field2._raw.reshape((2, 3, 1), order="F")
+        result = self.density + field2
+        assert_array_equal(self.density._raw + field2._raw, result._raw)
+
+    def test_sub(self) -> None:
+        """Test Field's __sub__ method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        field2._raw = rand(6)
+        field2._data = field2._raw.reshape((2, 3, 1), order="F")
+        result = self.density - field2
+        assert_array_equal(self.density._raw - field2._raw, result._raw)
+
+    def test_mul(self) -> None:
+        """Test Field's __mul__ method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        field2._raw = rand(6)
+        field2._data = field2._raw.reshape((2, 3, 1), order="F")
+        result = self.density * field2
+        assert_array_equal(self.density._raw * field2._raw, result._raw)
+
+    def test_truediv(self) -> None:
+        """Test Field's __truediv__ method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        field2._raw = rand(6)
+        field2._data = field2._raw.reshape((2, 3, 1), order="F")
+        result = self.density / field2
+        assert_array_equal(self.density._raw / field2._raw, result._raw)
+
+    def test_pow(self) -> None:
+        """Test Field's __pow__ method."""
+        result = self.density**2
+        assert_array_equal(self.density._raw**2, result._raw)

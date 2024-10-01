@@ -10,6 +10,104 @@ from numpy.typing import NDArray
 class Field(ABC):
     """An abstract base field."""
 
+    def _check_valid_for_arithmetic(self, other: "Field", operation: "str") -> None:
+        """Check if two fields are suitable for arithmetic operations.
+
+        Fields must be defined at the same coordinates in order to be valid.
+
+        Args:
+            other (Field): The field on the RHS of the operator.
+            operation (str): The name of the operation.
+
+        Raises:
+            Exception: If other is not a Field.
+            Exception: If the fields are incompatible.
+        """
+        if not isinstance(other, Field) and not isinstance(other, DerivedField):
+            raise Exception(f"{other} is of an invalid class.")
+        if (
+            (self._xdata != other._xdata).all()
+            or (self._ydata != other._ydata).all()
+            or (self._zdata != other._zdata).all()
+        ):
+            raise Exception(
+                f"Cannot {operation} fields defined at different coordinates."
+            )
+
+    def __add__(self, other: "Field") -> "DerivedField":
+        """Add one field to another.
+
+        Args:
+            other (Field): The field to be added.
+
+        Returns:
+            DerivedField: The sum of the two fields.
+        """
+        self._check_valid_for_arithmetic(other, "add")
+        result = DerivedField(self)
+        result._raw = self._raw + other._raw
+        result._data = self._data + other._data
+        return result
+
+    def __sub__(self, other) -> "DerivedField":
+        """Subtract one field from another.
+
+        Args:
+            other (Field): The field to be subtracted.
+
+        Returns:
+            DerivedField: The difference of the two fields.
+        """
+        self._check_valid_for_arithmetic(other, "subtract")
+        result = DerivedField(self)
+        result._raw = self._raw - other._raw
+        result._data = self._data - other._data
+        return result
+
+    def __mul__(self, other) -> "DerivedField":
+        """Multiply one field by another.
+
+        Args:
+            other (Field): The field to be multiplied by.
+
+        Returns:
+            DerivedField: The product of the two fields.
+        """
+        self._check_valid_for_arithmetic(other, "multiply")
+        result = DerivedField(self)
+        result._raw = self._raw * other._raw
+        result._data = self._data * other._data
+        return result
+
+    def __truediv__(self, other) -> "DerivedField":
+        """Divide one field by another.
+
+        Args:
+            other (Field): The field to be divided by.
+
+        Returns:
+            DerivedField: The ratio of the two fields.
+        """
+        self._check_valid_for_arithmetic(other, "divide")
+        result = DerivedField(self)
+        result._raw = self._raw / other._raw
+        result._data = self._data / other._data
+        return result
+
+    def __pow__(self, power: float | int) -> "DerivedField":
+        """Raise the field data to a power.
+
+        Args:
+            power (float | int): The power to raise the field to.
+
+        Returns:
+            DerivedField: The field with data raised to the requested power.
+        """
+        result = DerivedField(self)
+        result._raw = self._raw**power
+        result._data = self._data**power
+        return result
+
     @abstractmethod
     def _load(self, num: int) -> None:
         """Load the field data from file.
@@ -236,3 +334,41 @@ class Field(ABC):
             NDArray: A shaped numpy array containing the field values
         """
         return self._data
+
+
+class DerivedField:
+    """A derived field."""
+
+    def __new__(cls, base: Field) -> "DerivedField":
+        """Define a new field, derived from another.
+
+        Args:
+            base (Field): The field to derive from.
+
+        Returns:
+            DerivedField: A new field, derived from another.
+        """
+        cls._get_2D_cartesian_plot_data = base.__class__._get_2D_cartesian_plot_data
+        cls._get_2D_cylindrical_plot_data = base.__class__._get_2D_cylindrical_plot_data
+        cls._get_2D_spherical_plot_data = base.__class__._get_2D_spherical_plot_data
+        cls._get_1D_cartesian_plot_data = base.__class__._get_1D_cartesian_plot_data
+        cls._get_1D_cylindrical_plot_data = base.__class__._get_1D_cylindrical_plot_data
+        cls._get_1D_spherical_plot_data = base.__class__._get_1D_spherical_plot_data
+        cls.x = base.__class__.x
+        cls.y = base.__class__.y
+        cls.z = base.__class__.z
+        cls.raw = base.__class__.raw
+        cls.data = base.__class__.data
+        cls.plot = Field.plot
+        return super().__new__(cls)
+
+    def __init__(self, base: Field) -> None:
+        """Create a derived field.
+
+        Args:
+            base (Field): The field to derive from.
+        """
+        self._output = base._output
+        self._xdata = base._xdata
+        self._ydata = base._ydata
+        self._zdata = base._zdata
