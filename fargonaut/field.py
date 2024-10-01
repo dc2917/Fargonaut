@@ -45,6 +45,7 @@ class Field(ABC):
         """
         self._check_valid_for_arithmetic(other, "add")
         result = DerivedField(self)
+        result.symbol = f"{self.symbol} + {other.symbol}"
         result._raw = self._raw + other._raw
         result._data = self._data + other._data
         return result
@@ -60,6 +61,7 @@ class Field(ABC):
         """
         self._check_valid_for_arithmetic(other, "subtract")
         result = DerivedField(self)
+        result.symbol = f"{self.symbol} - {other.symbol}"
         result._raw = self._raw - other._raw
         result._data = self._data - other._data
         return result
@@ -75,6 +77,7 @@ class Field(ABC):
         """
         self._check_valid_for_arithmetic(other, "multiply")
         result = DerivedField(self)
+        result.symbol = rf"{self.symbol} \times {other.symbol}"
         result._raw = self._raw * other._raw
         result._data = self._data * other._data
         return result
@@ -90,6 +93,7 @@ class Field(ABC):
         """
         self._check_valid_for_arithmetic(other, "divide")
         result = DerivedField(self)
+        result.symbol = f"{self.symbol} / {other.symbol}"
         result._raw = self._raw / other._raw
         result._data = self._data / other._data
         return result
@@ -104,6 +108,7 @@ class Field(ABC):
             DerivedField: The field with data raised to the requested power.
         """
         result = DerivedField(self)
+        result.symbol = f"{self.symbol}^{power}"
         result._raw = self._raw**power
         result._data = self._data**power
         return result
@@ -368,7 +373,16 @@ class DerivedField:
         Args:
             base (Field): The field to derive from.
         """
+        self.symbol = base.symbol
         self._output = base._output
         self._xdata = base._xdata
         self._ydata = base._ydata
         self._zdata = base._zdata
+
+    def set_symbol(self, symbol: str) -> None:
+        """Set the symbol representing the field's quantity.
+
+        Args:
+            symbol (str): The symbol to represent the quantity.
+        """
+        self.symbol = symbol

@@ -26,6 +26,7 @@ class Density(Field):
             output: The FARGO3D simulation output
             num (int): The number of the field output time to load
         """
+        self.symbol = r"\Sigma_\mathrm{g}"
         self._output = output
         self._raw = self._load(num)
         self._process_domains()
@@ -112,7 +113,7 @@ class Density(Field):
             Y = ygrid[idx, :, :]
             C = self._data[idx, :, :]
 
-        return X, Y, C, xlabel, ylabel, r"$\Sigma$"
+        return X, Y, C, xlabel, ylabel, f"${self.symbol}$"
 
     def _get_2D_cylindrical_plot_data(
         self, csys: str, dims: str, idx: int
@@ -175,7 +176,7 @@ class Density(Field):
             Y = ygrid[idx, :, :]
             C = self._data[idx, :, :]
 
-        return X, Y, C, xlabel, ylabel, r"$\Sigma$"
+        return X, Y, C, xlabel, ylabel, f"${self.symbol}$"
 
     def _get_2D_spherical_plot_data(
         self, csys: str, dims: str, idx: int
@@ -238,7 +239,7 @@ class Density(Field):
             Y = ygrid[idx, :, :]
             C = self._data[idx, :, :]
 
-        return X, Y, C, xlabel, ylabel, r"$\Sigma$"
+        return X, Y, C, xlabel, ylabel, f"${self.symbol}$"
 
     def _get_1D_cartesian_plot_data(
         self, csys: str, dims: str, idx: tuple[int, int]
@@ -284,7 +285,7 @@ class Density(Field):
             X = xgrid[idx[0], idx[1], :]
             Y = self._data[idx[0], idx[1], :]
 
-        return X, Y, xlabel, r"$\Sigma$"
+        return X, Y, xlabel, f"${self.symbol}$"
 
     def _get_1D_cylindrical_plot_data(
         self, csys: str, dims: str, idx: tuple[int, int]
@@ -334,7 +335,7 @@ class Density(Field):
             X = xgrid[idx[0], idx[1], :]
             Y = self._data[idx[0], idx[1], :]
 
-        return X, Y, xlabel, r"$\Sigma$"
+        return X, Y, xlabel, f"${self.symbol}$"
 
     def _get_1D_spherical_plot_data(
         self, csys: str, dims: str, idx: tuple[int, int]
@@ -384,4 +385,4 @@ class Density(Field):
             X = xgrid[idx[0], idx[1], :]
             Y = self._data[idx[0], idx[1], :]
 
-        return X, Y, xlabel, r"$\Sigma$"
+        return X, Y, xlabel, f"${self.symbol}$"
