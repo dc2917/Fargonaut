@@ -88,3 +88,25 @@ Generating 1D line plots of a field requires specifying the indices at which to 
   >>> gasdens50.plot("polar", "y", (288, 0))
 
 as 288 is the index closest to :math:`\phi = \pi` (and 0 is the :math:`z` index, as ``nz`` is 1 for this simulation).
+
+Operations on fields
+--------------------
+
+You can perform binary arithmetic operations on fields, provided they are defined at the same coordinates. You can therefore perform operations on scalar fields, as they are defined at cell centres, or on the same component of vector fields, as they are staggered along the same dimension. For example::
+
+  >>> pressure50 = gasdens50 * gasenergy50**2
+  >>> vx_bx_ratio50 = gasvx50 / bx50
+
+are valid operations, while::
+
+  >>> gasvx50 / gasdens50
+  Exception: Cannot divide fields defined at different coordinates.
+
+You can call the ``set_symbol`` method on derived fields for labelling axes when plotting::
+
+  >>> pressure50 = gasdens50 * gasenergy50**2
+  >>> print(pressure50.symbol)
+  \Sigma_\mathrm{g} \times c_\mathrm{s}^2
+  >>> pressure50.set_symbol("P")
+  >>> print(pressure50.symbol)
+  P

@@ -34,6 +34,7 @@ class TestEnergy(unittest.TestCase):
         output.nghx = 1
         output.nghy = 3
         output.nghz = 1
+        output.get_opt.return_value = False
 
         cls.gasenergy1_file = tempfile.NamedTemporaryFile(
             delete=False, mode="w+b", suffix=".dat"

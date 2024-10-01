@@ -27,6 +27,7 @@ class MagneticField(Field):
             dimension (str): The axis corresponding to the magnetic field direction
             num (int): The number of the field output time to load
         """
+        self.symbol = "B"
         self._output = output
         self._dimension = dimension
         self._raw = self._load(num)
@@ -125,7 +126,7 @@ class MagneticField(Field):
             Y = ygrid[idx, :, :]
             C = self._data[idx, :, :]
 
-        clabel = f"$B_{coord_map[self._dimension][1].strip('$')}$"
+        clabel = f"${self.symbol}_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, C, xlabel, ylabel, clabel
 
@@ -190,7 +191,7 @@ class MagneticField(Field):
             Y = ygrid[idx, :, :]
             C = self._data[idx, :, :]
 
-        clabel = f"$B_{coord_map[self._dimension][1].strip('$')}$"
+        clabel = f"${self.symbol}_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, C, xlabel, ylabel, clabel
 
@@ -255,7 +256,7 @@ class MagneticField(Field):
             Y = ygrid[idx, :, :]
             C = self._data[idx, :, :]
 
-        clabel = f"$B_{coord_map[self._dimension][1].strip('$')}$"
+        clabel = f"${self.symbol}_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, C, xlabel, ylabel, clabel
 
@@ -303,7 +304,7 @@ class MagneticField(Field):
             X = xgrid[idx[0], idx[1], :]
             Y = self._data[idx[0], idx[1], :]
 
-        ylabel = f"$B_{coord_map[self._dimension][1].strip('$')}$"
+        ylabel = f"${self.symbol}_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, xlabel, ylabel
 
@@ -355,7 +356,7 @@ class MagneticField(Field):
             X = xgrid[idx[0], idx[1], :]
             Y = self._data[idx[0], idx[1], :]
 
-        ylabel = f"$B_{coord_map[self._dimension][1].strip('$')}$"
+        ylabel = f"${self.symbol}_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, xlabel, ylabel
 
@@ -407,6 +408,6 @@ class MagneticField(Field):
             X = xgrid[idx[0], idx[1], :]
             Y = self._data[idx[0], idx[1], :]
 
-        ylabel = f"$B_{coord_map[self._dimension][1].strip('$')}$"
+        ylabel = f"${self.symbol}_{coord_map[self._dimension][1].strip('$')}$"
 
         return X, Y, xlabel, ylabel

@@ -6,7 +6,7 @@ import unittest.mock
 from numpy import array
 from numpy.testing import assert_array_equal
 
-from fargonaut.field import Field
+from fargonaut.field import DerivedField, Field
 
 
 class TestField(unittest.TestCase):
@@ -43,3 +43,21 @@ class TestField(unittest.TestCase):
                 ]
             ),
         )
+
+
+class TestDerivedField(unittest.TestCase):
+    """Tests for DerivedField class."""
+
+    def setUp(self) -> None:
+        """Create field fixture."""
+        self.field = unittest.mock.Mock()
+        self.field.set_symbol = DerivedField.set_symbol
+
+    def tearDown(self) -> None:
+        """Destroy field fixture."""
+        del self.field
+
+    def test_set_symbol(self) -> None:
+        """Test DerivedField's set_symbol method."""
+        self.field.set_symbol(self.field, "x")
+        self.assertEqual(self.field.symbol, "x")

@@ -110,7 +110,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = "$x$"
         ylabel_expected = "$y$"
-        clabel_expected = r"$\Sigma$"
+        clabel_expected = r"$\Sigma_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_cartesian_plot_data(
             "cartesian", "xy", 0
         )
@@ -183,7 +183,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = r"$\phi$"
         ylabel_expected = "$r$"
-        clabel_expected = r"$\Sigma$"
+        clabel_expected = r"$\Sigma_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_cylindrical_plot_data(
             "polar", "xy", 0
         )
@@ -253,7 +253,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = "$x$"
         ylabel_expected = "$y$"
-        clabel_expected = r"$\Sigma$"
+        clabel_expected = r"$\Sigma_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_cylindrical_plot_data(
             "cartesian", "xy", 0
         )
@@ -354,7 +354,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = r"$\phi$"
         ylabel_expected = "$r$"
-        clabel_expected = r"$\Sigma$"
+        clabel_expected = r"$\Sigma_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_spherical_plot_data(
             "polar", "xy", 0
         )
@@ -431,7 +431,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = "$x$"
         ylabel_expected = "$y$"
-        clabel_expected = r"$\Sigma$"
+        clabel_expected = r"$\Sigma_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_spherical_plot_data(
             "cartesian", "xy", 0
         )
@@ -520,7 +520,7 @@ class TestDensity(unittest.TestCase):
         X_expected = array([-0.785, 0.785])
         Y_expected = self.density.data[:, 0, 0]
         xlabel_expected = "$x$"
-        ylabel_expected = r"$\Sigma$"
+        ylabel_expected = r"$\Sigma_\mathrm{g}$"
         X, Y, xlabel, ylabel = self.density._get_1D_cartesian_plot_data(
             "cartesian", "x", (0, 0)
         )
@@ -559,7 +559,7 @@ class TestDensity(unittest.TestCase):
         X_expected = array([-0.785, 0.785])
         Y_expected = self.density.data[:, 0, 0]
         xlabel_expected = r"$\phi$"
-        ylabel_expected = r"$\Sigma$"
+        ylabel_expected = r"$\Sigma_\mathrm{g}$"
         X, Y, xlabel, ylabel = self.density._get_1D_cylindrical_plot_data(
             "polar", "x", (0, 0)
         )
@@ -639,7 +639,7 @@ class TestDensity(unittest.TestCase):
         X_expected = array([-0.785, 0.785])
         Y_expected = self.density.data[:, 0, 0]
         xlabel_expected = r"$\phi$"
-        ylabel_expected = r"$\Sigma$"
+        ylabel_expected = r"$\Sigma_\mathrm{g}$"
         X, Y, xlabel, ylabel = self.density._get_1D_spherical_plot_data(
             "polar", "x", (0, 0)
         )
@@ -822,3 +822,71 @@ class TestDensity(unittest.TestCase):
         """Test Field's data property."""
         expected = GASDENS1.reshape((2, 3, 1), order="F")
         assert_array_equal(self.density.data, expected)
+
+    def test_check_valid_for_arithmetic(self) -> None:
+        """Test Field's _check_valid_for_arithmetic method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        self.assertEqual(
+            None,
+            self.density._check_valid_for_arithmetic(field2, "arithmetic_operation"),
+        )
+        with self.assertRaises(Exception):
+            self.density._check_valid_for_arithmetic(
+                "not_a_Field", "arithmetic_operation"
+            )
+
+        field2._xdata = self.density._xdata - 3.14 / 4
+        with self.assertRaises(Exception):
+            self.density._check_valid_for_arithmetic(field2, "arithmetic_operation")
+
+    def test_add(self) -> None:
+        """Test Field's __add__ method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        field2._raw = rand(6)
+        field2._data = field2._raw.reshape((2, 3, 1), order="F")
+        result = self.density + field2
+        assert_array_equal(self.density._raw + field2._raw, result._raw)
+
+    def test_sub(self) -> None:
+        """Test Field's __sub__ method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        field2._raw = rand(6)
+        field2._data = field2._raw.reshape((2, 3, 1), order="F")
+        result = self.density - field2
+        assert_array_equal(self.density._raw - field2._raw, result._raw)
+
+    def test_mul(self) -> None:
+        """Test Field's __mul__ method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        field2._raw = rand(6)
+        field2._data = field2._raw.reshape((2, 3, 1), order="F")
+        result = self.density * field2
+        assert_array_equal(self.density._raw * field2._raw, result._raw)
+
+    def test_truediv(self) -> None:
+        """Test Field's __truediv__ method."""
+        field2 = unittest.mock.Mock(spec=self.density)
+        field2._xdata = self.density._xdata
+        field2._ydata = self.density._ydata
+        field2._zdata = self.density._zdata
+        field2._raw = rand(6)
+        field2._data = field2._raw.reshape((2, 3, 1), order="F")
+        result = self.density / field2
+        assert_array_equal(self.density._raw / field2._raw, result._raw)
+
+    def test_pow(self) -> None:
+        """Test Field's __pow__ method."""
+        result = self.density**2
+        assert_array_equal(self.density._raw**2, result._raw)
