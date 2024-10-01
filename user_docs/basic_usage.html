@@ -52,6 +52,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Basic Usage</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#opening-an-output">Opening an output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#opening-field-data-files">Opening field data files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operations-on-fields">Operations on fields</a></li>
 </ul>
 </li>
 </ul>
@@ -171,6 +172,28 @@
 </pre></div>
 </div>
 <p>as 288 is the index closest to <span class="math notranslate nohighlight">\(\phi = \pi\)</span> (and 0 is the <span class="math notranslate nohighlight">\(z\)</span> index, as <code class="docutils literal notranslate"><span class="pre">nz</span></code> is 1 for this simulation).</p>
+</section>
+<section id="operations-on-fields">
+<h2>Operations on fields<a class="headerlink" href="#operations-on-fields" title="Link to this heading"></a></h2>
+<p>You can perform binary arithmetic operations on fields, provided they are defined at the same coordinates. You can therefore perform operations on scalar fields, as they are defined at cell centres, or on the same component of vector fields, as they are staggered along the same dimension. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pressure50</span> <span class="o">=</span> <span class="n">gasdens50</span> <span class="o">*</span> <span class="n">gasenergy50</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">vx_bx_ratio50</span> <span class="o">=</span> <span class="n">gasvx50</span> <span class="o">/</span> <span class="n">bx50</span>
+</pre></div>
+</div>
+<p>are valid operations, while:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gasvx50</span> <span class="o">/</span> <span class="n">gasdens50</span>
+<span class="go">Exception: Cannot divide fields defined at different coordinates.</span>
+</pre></div>
+</div>
+<p>You can call the <code class="docutils literal notranslate"><span class="pre">set_symbol</span></code> method on derived fields for labelling axes when plotting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pressure50</span> <span class="o">=</span> <span class="n">gasdens50</span> <span class="o">*</span> <span class="n">gasenergy50</span><span class="o">**</span><span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pressure50</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span>
+<span class="go">\Sigma_\mathrm{g} \times c_\mathrm{s}^2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pressure50</span><span class="o">.</span><span class="n">set_symbol</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pressure50</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span>
+<span class="go">P</span>
+</pre></div>
+</div>
 </section>
 </section>
 
