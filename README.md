@@ -25,4 +25,4 @@ Contributions to Fargonaut are welcome. Please see the [contributing guidelines]
 
 ## License
 
-Fargonaut is fully open source. For more information about its license, see [LICENSE](LICENSE.md).
+Fargonaut is fully open source. For more information about its license, see [LICENSE](LICENSE).
