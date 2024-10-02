@@ -15,7 +15,7 @@ Fargonaut is a package for post-processing and visualising outputs of [FARGO3D](
 >>> gaspressure50.plot()
 ```
 
-![Gas pressure output 50](docs/images/fargo_gaspressure50.png)
+![Gas pressure output 50](https://raw.githubusercontent.com/dc2917/Fargonaut/main/docs/images/fargo_gaspressure50.png)
 
 See the [documentation](https://dc2917.github.io/Fargonaut/index.html) for installation instructions, example usage and the API reference.
 
