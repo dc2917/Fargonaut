@@ -1,6 +1,25 @@
 Installation
 ============
 
+From PyPI
+---------
+
+Create a virtual environment to keep the Python packages separate from system packages and other local environments::
+
+  $ python -m venv .venv
+
+Activate the environment::
+
+  $ source .venv/bin/activate
+
+Install the dependencies::
+
+  $ pip install Fargonaut
+
+
+From source
+-----------
+
 The only requirements for installing Fargonaut are `Git`_ and `Python`_.
 
 Assuming you have these installed, first, clone the repository::
