@@ -11,11 +11,11 @@ Fargonaut is a package for post-processing and visualising outputs of [FARGO3D](
 >>> output = Output("/path/to/fargo3d/outputs/fargo")
 >>> gasdens50 = output.get_field("gasdens", 50)
 >>> gasenergy50 = output.get_field("gasenergy", 50)
->>> gaspressure50 = gasdens50 * gasdenergy50**2
+>>> gaspressure50 = gasdens50 * gasenergy50**2
 >>> gaspressure50.plot()
 ```
 
-![Gas pressure output 50](docs/images/fargo_gaspressure50.png)
+![Gas pressure output 50](https://raw.githubusercontent.com/dc2917/Fargonaut/main/docs/images/fargo_gaspressure50.png)
 
 See the [documentation](https://dc2917.github.io/Fargonaut/index.html) for installation instructions, example usage and the API reference.
 
@@ -25,4 +25,4 @@ Contributions to Fargonaut are welcome. Please see the [contributing guidelines]
 
 ## License
 
-Fargonaut is fully open source. For more information about its license, see [LICENSE](LICENSE.md).
+Fargonaut is fully open source. For more information about its license, see [LICENSE](LICENSE).

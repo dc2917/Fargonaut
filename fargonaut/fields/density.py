@@ -26,7 +26,7 @@ class Density(Field):
             output: The FARGO3D simulation output
             num (int): The number of the field output time to load
         """
-        self.symbol = r"\Sigma_\mathrm{g}"
+        self.symbol = r"\mathit{\Sigma}_\mathrm{g}"
         self._output = output
         self._raw = self._load(num)
         self._process_domains()

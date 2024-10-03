@@ -1,11 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "Fargonaut"
-version = "0.1"
+version = "0.1.2"
+authors = [
+    { name="Dan Cummins", email="daniel.cummins17@imperial.ac.uk" },
+]
+description = "A FARGO3D output post-processing and visualisation toolkit"
+readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD License",
+]
+keywords = ["astronomy", "astrophysics", "fargo3d", "visualisation"]
 dependencies = [
     "matplotlib",
     "numpy",
 ]
+
+[project.urls]
+Homepage = "https://github.com/dc2917/Fargonaut"
+Documentation = "https://dc2917.github.io/Fargonaut/index.html"
 
 [project.optional-dependencies]
 dev = [

@@ -110,7 +110,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = "$x$"
         ylabel_expected = "$y$"
-        clabel_expected = r"$\Sigma_\mathrm{g}$"
+        clabel_expected = r"$\mathit{\Sigma}_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_cartesian_plot_data(
             "cartesian", "xy", 0
         )
@@ -183,7 +183,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = r"$\phi$"
         ylabel_expected = "$r$"
-        clabel_expected = r"$\Sigma_\mathrm{g}$"
+        clabel_expected = r"$\mathit{\Sigma}_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_cylindrical_plot_data(
             "polar", "xy", 0
         )
@@ -253,7 +253,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = "$x$"
         ylabel_expected = "$y$"
-        clabel_expected = r"$\Sigma_\mathrm{g}$"
+        clabel_expected = r"$\mathit{\Sigma}_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_cylindrical_plot_data(
             "cartesian", "xy", 0
         )
@@ -354,7 +354,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = r"$\phi$"
         ylabel_expected = "$r$"
-        clabel_expected = r"$\Sigma_\mathrm{g}$"
+        clabel_expected = r"$\mathit{\Sigma}_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_spherical_plot_data(
             "polar", "xy", 0
         )
@@ -431,7 +431,7 @@ class TestDensity(unittest.TestCase):
         C_expected = self.density.data[:, :, 0]
         xlabel_expected = "$x$"
         ylabel_expected = "$y$"
-        clabel_expected = r"$\Sigma_\mathrm{g}$"
+        clabel_expected = r"$\mathit{\Sigma}_\mathrm{g}$"
         X, Y, C, xlabel, ylabel, clabel = self.density._get_2D_spherical_plot_data(
             "cartesian", "xy", 0
         )
@@ -520,7 +520,7 @@ class TestDensity(unittest.TestCase):
         X_expected = array([-0.785, 0.785])
         Y_expected = self.density.data[:, 0, 0]
         xlabel_expected = "$x$"
-        ylabel_expected = r"$\Sigma_\mathrm{g}$"
+        ylabel_expected = r"$\mathit{\Sigma}_\mathrm{g}$"
         X, Y, xlabel, ylabel = self.density._get_1D_cartesian_plot_data(
             "cartesian", "x", (0, 0)
         )
@@ -559,7 +559,7 @@ class TestDensity(unittest.TestCase):
         X_expected = array([-0.785, 0.785])
         Y_expected = self.density.data[:, 0, 0]
         xlabel_expected = r"$\phi$"
-        ylabel_expected = r"$\Sigma_\mathrm{g}$"
+        ylabel_expected = r"$\mathit{\Sigma}_\mathrm{g}$"
         X, Y, xlabel, ylabel = self.density._get_1D_cylindrical_plot_data(
             "polar", "x", (0, 0)
         )
@@ -639,7 +639,7 @@ class TestDensity(unittest.TestCase):
         X_expected = array([-0.785, 0.785])
         Y_expected = self.density.data[:, 0, 0]
         xlabel_expected = r"$\phi$"
-        ylabel_expected = r"$\Sigma_\mathrm{g}$"
+        ylabel_expected = r"$\mathit{\Sigma}_\mathrm{g}$"
         X, Y, xlabel, ylabel = self.density._get_1D_spherical_plot_data(
             "polar", "x", (0, 0)
         )
