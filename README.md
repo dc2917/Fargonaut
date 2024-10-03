@@ -11,7 +11,7 @@ Fargonaut is a package for post-processing and visualising outputs of [FARGO3D](
 >>> output = Output("/path/to/fargo3d/outputs/fargo")
 >>> gasdens50 = output.get_field("gasdens", 50)
 >>> gasenergy50 = output.get_field("gasenergy", 50)
->>> gaspressure50 = gasdens50 * gasdenergy50**2
+>>> gaspressure50 = gasdens50 * gasenergy50**2
 >>> gaspressure50.plot()
 ```
 

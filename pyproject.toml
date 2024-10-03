@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Fargonaut"
-version = "0.1.1"
+version = "0.1.2"
 authors = [
     { name="Dan Cummins", email="daniel.cummins17@imperial.ac.uk" },
 ]

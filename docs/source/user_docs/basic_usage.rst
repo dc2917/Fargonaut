@@ -106,7 +106,7 @@ You can call the ``set_symbol`` method on derived fields for labelling axes when
 
   >>> pressure50 = gasdens50 * gasenergy50**2
   >>> print(pressure50.symbol)
-  \Sigma_\mathrm{g} \times c_\mathrm{s}^2
+  \\mathit{Sigma}_\mathrm{g} \times c_\mathrm{s}^2
   >>> pressure50.set_symbol("P")
   >>> print(pressure50.symbol)
   P
