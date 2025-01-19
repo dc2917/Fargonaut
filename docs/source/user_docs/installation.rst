@@ -13,7 +13,7 @@ Activate the environment::
 
   $ source .venv/bin/activate
 
-Install the dependencies::
+Install the package along with its dependencies::
 
   $ pip install Fargonaut
 
