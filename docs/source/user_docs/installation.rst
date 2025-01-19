@@ -4,7 +4,8 @@ Installation
 From PyPI
 ---------
 
-Create a virtual environment to keep the Python packages separate from system packages and other local environments::
+Create a virtual environment to keep the Python packages separate from system packages
+and other local environments::
 
   $ python -m venv .venv
 
@@ -26,7 +27,8 @@ Assuming you have these installed, first, clone the repository::
 
   $ git clone https://github.com/dc2917/Fargonaut
 
-Create a virtual environment to keep the Python packages separate from system packages and other local environments::
+Create a virtual environment to keep the Python packages separate from system packages
+and other local environments::
 
   $ cd Fargonaut
   $ python -m venv .venv
