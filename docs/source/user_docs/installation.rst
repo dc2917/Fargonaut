@@ -42,5 +42,26 @@ Install the dependencies::
   $ pip install -r requirements.txt
 
 
+Choosing a Matplotlib backend
+-----------------------------
+
+Fargonaut uses `Matplotlib`_ to generate plots of FARGO3D output data. Matplotlib
+provides users with the ability to specify both the GUI and graphics libraries with
+which to draw and display plots - collectively referred to as the "backend".
+
+You can install the Python packges required to use either the GTK or Qt GUI libraries
+with the Cairo graphics library with either::
+
+  $ pip install Fargonaut[mpl_gtk]
+
+or::
+
+  $ pip install Fargonaut[mpl_qt]
+
+Alternatively, install the requirements for your preferred Matplotlib backend. See
+`here`_ for further details.
+
 .. _Git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 .. _Python: https://www.python.org/downloads/
+.. _Matplotlib: https://matplotlib.org/
+.. _here: https://matplotlib.org/stable/users/explain/figure/backends.html
