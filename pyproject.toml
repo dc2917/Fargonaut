@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Fargonaut"
-version = "0.1.2"
+version = "0.1.3"
 authors = [
     { name="Dan Cummins", email="daniel.cummins17@imperial.ac.uk" },
 ]
@@ -27,6 +27,14 @@ Homepage = "https://github.com/dc2917/Fargonaut"
 Documentation = "https://dc2917.github.io/Fargonaut/index.html"
 
 [project.optional-dependencies]
+mpl_gtk = [
+    "pycairo",
+    "PyGObject"
+]
+mpl_qt = [
+    "pycairo",
+    "PyQt6"
+]
 dev = [
     "pip-tools",
     "pre-commit",
