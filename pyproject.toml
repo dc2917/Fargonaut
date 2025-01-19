@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Fargonaut"
-version = "0.1.3"
+version = "0.1.4"
 authors = [
     { name="Dan Cummins", email="daniel.cummins17@imperial.ac.uk" },
 ]
 description = "A FARGO3D output post-processing and visualisation toolkit"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: BSD License",
@@ -44,7 +44,7 @@ dev = [
 ]
 
 [tool.ruff]
-target-version = "py312"
+target-version = "py313"
 lint.select = [
     "D",   # pydocstyle
     "E",   # pycodestyle
