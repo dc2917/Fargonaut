@@ -1,7 +1,8 @@
 Fargonaut documentation
 =======================
 
-Fargonaut is an object-oriented toolkit for post-processing and visualising outputs of FARGO3D_, written in Python.
+Fargonaut is an object-oriented toolkit for post-processing and visualising outputs of
+FARGO3D_, written in Python.
 
 .. toctree::
    :maxdepth: 2

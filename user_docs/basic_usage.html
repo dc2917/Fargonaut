@@ -101,8 +101,11 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output</span> <span class="o">=</span> <span class="n">Output</span><span class="p">(</span><span class="s2">&quot;/path/to/fargo3d/outputs/fargo&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Note that you should replace /path/to/fargo3d/outputs/fargo with the path to the output you wish to open. For demonstrative purposes, here we will use the “fargo” output that is created when running the example “fargo” setup.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">output</span></code> object contains the high-level details of the simulation output, such as the variables set and the compilation options used, amongst other things:</p>
+<p>Note that you should replace /path/to/fargo3d/outputs/fargo with the path to the output
+you wish to open. For demonstrative purposes, here we will use the “fargo” output that
+is created when running the example “fargo” setup.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">output</span></code> object contains the high-level details of the simulation output, such as
+the variables set and the compilation options used, amongst other things:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
 <span class="go">Help on Output in module fargonaut.output object:</span>
 
@@ -113,12 +116,14 @@
 <span class="go">...</span>
 </pre></div>
 </div>
-<p>You can etrieve variables defined in the variables.par file using the <code class="docutils literal notranslate"><span class="pre">get_var</span></code> method, e.g.:</p>
+<p>You can etrieve variables defined in the variables.par file using the <code class="docutils literal notranslate"><span class="pre">get_var</span></code>
+method, e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">get_var</span><span class="p">(</span><span class="s2">&quot;FRAME&quot;</span><span class="p">)</span>
 <span class="go">&#39;G&#39;</span>
 </pre></div>
 </div>
-<p>Some commonly used variables are stored as properties, in particular those related to the grid, e.g.:</p>
+<p>Some commonly used variables are stored as properties, in particular those related to
+the grid, e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">ny</span>
 <span class="go">128</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">output</span><span class="o">.</span><span class="n">nghy</span>
@@ -132,11 +137,13 @@
 </section>
 <section id="opening-field-data-files">
 <h2>Opening field data files<a class="headerlink" href="#opening-field-data-files" title="Link to this heading"></a></h2>
-<p>Use the <code class="docutils literal notranslate"><span class="pre">get_field</span></code> method to retrieve a field at a given output time. The names of the fields are those of the corresponding output files, e.g. to retrieve the gas density:</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">get_field</span></code> method to retrieve a field at a given output time. The names of
+the fields are those of the corresponding output files, e.g. to retrieve the gas density:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="s2">&quot;gasdens&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">gasdens50</span></code> contains the gas density data at output number 50, along with associated information such as the coordinates at which it is defined:</p>
+<p><code class="docutils literal notranslate"><span class="pre">gasdens50</span></code> contains the gas density data at output number 50, along with associated
+information such as the coordinates at which it is defined:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help</span><span class="p">(</span><span class="n">gasdens50</span><span class="p">)</span>
 <span class="go">Help on Density in module fargonaut.fields.density object:</span>
 
@@ -159,23 +166,33 @@
 <span class="go">        ...,</span>
 </pre></div>
 </div>
-<p>Use a <code class="docutils literal notranslate"><span class="pre">Field</span></code>’s <code class="docutils literal notranslate"><span class="pre">plot</span></code> method to generate a 1D line or 2D surface plot of the field as a function of one or more coordinates, e.g.:</p>
+<p>Use a <code class="docutils literal notranslate"><span class="pre">Field</span></code>’s <code class="docutils literal notranslate"><span class="pre">plot</span></code> method to generate a 1D line or 2D surface plot of the field
+as a function of one or more coordinates, e.g.:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="s2">&quot;xy&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>will create a 2D surface plot of the gas density as a function of its <span class="math notranslate nohighlight">\(x\)</span>- and <span class="math notranslate nohighlight">\(y\)</span>-coordinates. As the coordinate system used in this simulation is cylindrical, this will be a function of azimuth and radius. To convert this to cartesian <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, use:</p>
+<p>will create a 2D surface plot of the gas density as a function of its <span class="math notranslate nohighlight">\(x\)</span>- and
+<span class="math notranslate nohighlight">\(y\)</span>-coordinates. As the coordinate system used in this simulation is cylindrical,
+this will be a function of azimuth and radius. To convert this to cartesian <span class="math notranslate nohighlight">\(x\)</span>
+and <span class="math notranslate nohighlight">\(y\)</span>, use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;cartesian&quot;</span><span class="p">,</span> <span class="s2">&quot;xy&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Generating 1D line plots of a field requires specifying the indices at which to slice the data. For example, to plot the gas density as a function of radius, at <span class="math notranslate nohighlight">\(\phi = 0\)</span>, use:</p>
+<p>Generating 1D line plots of a field requires specifying the indices at which to slice
+the data. For example, to plot the gas density as a function of radius, at
+<span class="math notranslate nohighlight">\(\phi = 0\)</span>, use:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gasdens50</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;polar&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">288</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>as 288 is the index closest to <span class="math notranslate nohighlight">\(\phi = \pi\)</span> (and 0 is the <span class="math notranslate nohighlight">\(z\)</span> index, as <code class="docutils literal notranslate"><span class="pre">nz</span></code> is 1 for this simulation).</p>
+<p>as 288 is the index closest to <span class="math notranslate nohighlight">\(\phi = \pi\)</span> (and 0 is the <span class="math notranslate nohighlight">\(z\)</span> index, as
+<code class="docutils literal notranslate"><span class="pre">nz</span></code> is 1 for this simulation).</p>
 </section>
 <section id="operations-on-fields">
 <h2>Operations on fields<a class="headerlink" href="#operations-on-fields" title="Link to this heading"></a></h2>
-<p>You can perform binary arithmetic operations on fields, provided they are defined at the same coordinates. You can therefore perform operations on scalar fields, as they are defined at cell centres, or on the same component of vector fields, as they are staggered along the same dimension. For example:</p>
+<p>You can perform binary arithmetic operations on fields, provided they are defined at the
+same coordinates. You can therefore perform operations on scalar fields, as they are
+defined at cell centres, or on the same component of vector fields, as they are
+staggered along the same dimension. For example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pressure50</span> <span class="o">=</span> <span class="n">gasdens50</span> <span class="o">*</span> <span class="n">gasenergy50</span><span class="o">**</span><span class="mi">2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vx_bx_ratio50</span> <span class="o">=</span> <span class="n">gasvx50</span> <span class="o">/</span> <span class="n">bx50</span>
 </pre></div>
@@ -185,7 +202,8 @@
 <span class="go">Exception: Cannot divide fields defined at different coordinates.</span>
 </pre></div>
 </div>
-<p>You can call the <code class="docutils literal notranslate"><span class="pre">set_symbol</span></code> method on derived fields for labelling axes when plotting:</p>
+<p>You can call the <code class="docutils literal notranslate"><span class="pre">set_symbol</span></code> method on derived fields for labelling axes when
+plotting:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pressure50</span> <span class="o">=</span> <span class="n">gasdens50</span> <span class="o">*</span> <span class="n">gasenergy50</span><span class="o">**</span><span class="mi">2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pressure50</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span>
 <span class="go">\mathit{\Sigma}_\mathrm{g} \times c_\mathrm{s}^2</span>

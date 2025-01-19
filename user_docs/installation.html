@@ -50,6 +50,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#from-pypi">From PyPI</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#from-source">From source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#choosing-a-matplotlib-backend">Choosing a Matplotlib backend</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="basic_usage.html">Basic Usage</a></li>
@@ -87,7 +88,8 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
 <section id="from-pypi">
 <h2>From PyPI<a class="headerlink" href="#from-pypi" title="Link to this heading"></a></h2>
-<p>Create a virtual environment to keep the Python packages separate from system packages and other local environments:</p>
+<p>Create a virtual environment to keep the Python packages separate from system packages
+and other local environments:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -m venv .venv
 </pre></div>
 </div>
@@ -95,7 +97,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ source .venv/bin/activate
 </pre></div>
 </div>
-<p>Install the dependencies:</p>
+<p>Install the package along with its dependencies:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install Fargonaut
 </pre></div>
 </div>
@@ -107,7 +109,8 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/dc2917/Fargonaut
 </pre></div>
 </div>
-<p>Create a virtual environment to keep the Python packages separate from system packages and other local environments:</p>
+<p>Create a virtual environment to keep the Python packages separate from system packages
+and other local environments:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd Fargonaut
 $ python -m venv .venv
 </pre></div>
@@ -120,6 +123,23 @@ $ python -m venv .venv
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install -r requirements.txt
 </pre></div>
 </div>
+</section>
+<section id="choosing-a-matplotlib-backend">
+<h2>Choosing a Matplotlib backend<a class="headerlink" href="#choosing-a-matplotlib-backend" title="Link to this heading"></a></h2>
+<p>Fargonaut uses <a class="reference external" href="https://matplotlib.org/">Matplotlib</a> to generate plots of FARGO3D output data. Matplotlib
+provides users with the ability to specify both the GUI and graphics libraries with
+which to draw and display plots - collectively referred to as the “backend”.</p>
+<p>You can install the Python packges required to use either the GTK or Qt GUI libraries
+with the Cairo graphics library with either:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install Fargonaut[mpl_gtk]
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install Fargonaut[mpl_qt]
+</pre></div>
+</div>
+<p>Alternatively, install the requirements for your preferred Matplotlib backend. See
+<a class="reference external" href="https://matplotlib.org/stable/users/explain/figure/backends.html">here</a> for further details.</p>
 </section>
 </section>
 
