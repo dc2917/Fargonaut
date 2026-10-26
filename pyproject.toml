@@ -10,13 +10,14 @@ authors = [
 ]
 description = "A FARGO3D output post-processing and visualisation toolkit"
 readme = "README.md"
-license = { file = "LICENSE" }
+licence = "BSD-3-Clause"
+licence-files = ["LICENCE"]
 requires-python = ">=3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
-    "License :: OSI Approved :: BSD License",
+    "Licence :: OSI Approved :: BSD Licence",
 ]
 keywords = ["astronomy", "astrophysics", "fargo3d", "visualisation"]
 dependencies = [
