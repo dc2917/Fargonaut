@@ -23,6 +23,6 @@ See the [documentation](https://dc2917.github.io/Fargonaut/index.html) for insta
 
 Contributions to Fargonaut are welcome. Please see the [contributing guidelines](CONTRIBUTING.md).
 
-## License
+## Licence
 
-Fargonaut is fully open source. For more information about its license, see [LICENSE](LICENSE).
+Fargonaut is fully open source. For more information about its licence, see [LICENCE](LICENCE).
